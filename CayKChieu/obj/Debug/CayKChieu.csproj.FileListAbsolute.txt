@@ -1,0 +1,8 @@
+D:\Tai lieu\Cac mon trong CTDT\He CSDL da phuong tien\Thay Binh\Bao cao cuoi ky\Project\CayKChieu\obj\Debug\ResolveAssemblyReference.cache
+D:\Tai lieu\Cac mon trong CTDT\He CSDL da phuong tien\Thay Binh\Bao cao cuoi ky\Project\CayKChieu\obj\Debug\CayKChieu.Properties.Resources.resources
+D:\Tai lieu\Cac mon trong CTDT\He CSDL da phuong tien\Thay Binh\Bao cao cuoi ky\Project\CayKChieu\obj\Debug\CayKChieu.csproj.GenerateResource.Cache
+D:\Tai lieu\Cac mon trong CTDT\He CSDL da phuong tien\Thay Binh\Bao cao cuoi ky\Project\CayKChieu\bin\Debug\CayKChieu.exe
+D:\Tai lieu\Cac mon trong CTDT\He CSDL da phuong tien\Thay Binh\Bao cao cuoi ky\Project\CayKChieu\bin\Debug\CayKChieu.pdb
+D:\Tai lieu\Cac mon trong CTDT\He CSDL da phuong tien\Thay Binh\Bao cao cuoi ky\Project\CayKChieu\obj\Debug\CayKChieu.exe
+D:\Tai lieu\Cac mon trong CTDT\He CSDL da phuong tien\Thay Binh\Bao cao cuoi ky\Project\CayKChieu\obj\Debug\CayKChieu.pdb
+D:\Tai lieu\Cac mon trong CTDT\He CSDL da phuong tien\Thay Binh\Bao cao cuoi ky\Project\CayKChieu\obj\Debug\CayKChieu.FormMain.resources
