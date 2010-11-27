@@ -15,6 +15,7 @@ namespace CayKChieu
         private Node right;
         private Node parent;
         private int level;
+        private bool isFind = false;
 
         //Thuộc tính
         public Point Info
@@ -59,6 +60,12 @@ namespace CayKChieu
             set { parent = value; }
         }
 
+        public bool IsFind
+        {
+            get { return isFind; }
+            set { isFind = value; }
+        }
+
         //Phương thức xây dựng
         public Node(double xVal, double yVal)
         {
@@ -75,7 +82,16 @@ namespace CayKChieu
         {
             info.X = col * xPixel + xMove;
             info.Y = (level + 1) * yPixel + yMove;
-            Pen myPen = new Pen(Color.Blue, 2);
+            //Nếu đang được tìm thấy sẽ vẽ màu đỏ
+            Pen myPen;
+            if (isFind)
+            {
+                myPen = new Pen(Color.Red, 2);
+            }
+            else
+            {
+                myPen = new Pen(Color.Blue, 2);
+            }            
             Brush myBrush = new SolidBrush(Color.Green);
             //g.DrawEllipse(myPen, info.X - 15, info.Y - 15, 30, 30);
             g.DrawRectangle(myPen, info.X - 50, info.Y - 30, 100, 60);

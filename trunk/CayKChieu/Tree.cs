@@ -28,7 +28,7 @@ namespace CayKChieu
         {
             Node current = root;
 
-            while (current.XVal != xVal && current.YVal != yVal)
+            while (current.XVal != xVal || current.YVal != yVal)
             {
                 if ((current.Level % 2 == 0 && xVal < current.XVal) || (current.Level % 2 != 0 && yVal < current.YVal))
                 {
@@ -45,49 +45,6 @@ namespace CayKChieu
             }
             
             return current;
-        }
-
-        //Phương thức xen
-        private bool Insert(Node node, double xVal, double yVal)
-        {
-            if (node == null)
-            {
-                node = new Node(xVal, xVal);
-                node.Level = node.Parent.Level + 1;
-                node.Left = null;
-                node.Right = null;
-                node.Parent = null;
-            }
-            else if (node.XVal == xVal && node.YVal == yVal)
-            {
-                return false;
-            }
-            else
-            {
-                if (node.Level % 2 == 0)
-                {
-                    if (node.XVal > xVal)
-                    {
-                        Insert(node.Left, xVal, yVal);
-                    }
-                    else
-                    {
-                        Insert(node.Right, xVal, yVal);
-                    }
-                }
-                else
-                {
-                    if (node.YVal > yVal)
-                    {
-                        Insert(node.Left, xVal, yVal);
-                    }
-                    else
-                    {
-                        Insert(node.Right, xVal, yVal);
-                    }
-                }
-            }
-            return true;
         }
 
         //Thêm nút
@@ -168,7 +125,9 @@ namespace CayKChieu
             Node child = theRoot;
             //Con trái
             child = theRoot.Left;
-            Pen myPen = new Pen(Color.Red, 2);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            Pen myPen = new Pen(Color.Blue, 3);
+            myPen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
             if (child != null)
             {
                 g.DrawLine(myPen, col * xPixel + xMove - 25, (theRoot.Level + 1) * yPixel + yMove + 15, (col - d / 2) * xPixel + xMove, (child.Level + 1) * yPixel + yMove - 30);
@@ -192,6 +151,17 @@ namespace CayKChieu
             //Đệ quy
             DrawTree(theRoot.Left, g, col - d / 2, d / 2, xPixel, yPixel, xMove, yMove);
             DrawTree(theRoot.Right, g, col + d / 2, d / 2, xPixel, yPixel, xMove, yMove);
+        }
+
+        //Đặt lại trạng thái lúc chưa tìm kiếm cho cây
+        public void ResetTree(Node theRoot)
+        {
+            if (theRoot != null)
+            {
+                theRoot.IsFind = false;
+                ResetTree(theRoot.Left);
+                ResetTree(theRoot.Right);
+            }
         }
     }
 }
