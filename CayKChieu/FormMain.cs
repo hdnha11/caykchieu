@@ -31,6 +31,7 @@ namespace CayKChieu
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            tree.ResetTree(tree.Root);
             tree.Insert(Convert.ToDouble(txtX.Text), Convert.ToDouble(txtY.Text));
             Graphics g = ptbTree.CreateGraphics();
             g.Clear(ptbTree.BackColor);
@@ -112,6 +113,35 @@ namespace CayKChieu
             {
                 e.Handled = true;
             }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            tree.ResetTree(tree.Root);
+            Node nodeFind = tree.Search(Convert.ToDouble(txtX.Text), Convert.ToDouble(txtY.Text));
+            if (nodeFind != null)
+            {
+                nodeFind.IsFind = true;
+                Graphics g = ptbTree.CreateGraphics();
+                g.Clear(ptbTree.BackColor);
+                DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+            }
+            else
+            {
+                MessageBox.Show(String.Format("Không tìm thấy nút ({0}, {1})", txtX.Text, txtY.Text), "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                tree.ResetTree(tree.Root);
+                Graphics g = ptbTree.CreateGraphics();
+                g.Clear(ptbTree.BackColor);
+                DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+            }
+        }
+
+        private void btnResetLocation_Click(object sender, EventArgs e)
+        {
+            doDoiX = doDoiY = 0;
+            Graphics g = ptbTree.CreateGraphics();
+            g.Clear(ptbTree.BackColor);
+            DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
         }
     }
 }

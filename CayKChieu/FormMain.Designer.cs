@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.ptbTree = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
@@ -37,15 +38,21 @@
             this.btnDeleteTree = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.btnResetLocation = new System.Windows.Forms.Button();
+            this.ptbGrid = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.ptbTree)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ptbGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // ptbTree
             // 
-            this.ptbTree.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ptbTree.Location = new System.Drawing.Point(193, 0);
+            this.ptbTree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.ptbTree.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ptbTree.Location = new System.Drawing.Point(346, 0);
             this.ptbTree.Name = "ptbTree";
-            this.ptbTree.Size = new System.Drawing.Size(815, 662);
+            this.ptbTree.Size = new System.Drawing.Size(662, 662);
             this.ptbTree.TabIndex = 0;
             this.ptbTree.TabStop = false;
             this.ptbTree.MouseLeave += new System.EventHandler(this.ptbTree_MouseLeave);
@@ -116,6 +123,7 @@
             this.btnSearch.TabIndex = 5;
             this.btnSearch.Text = "Tìm";
             this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // btnDelete
             // 
@@ -126,11 +134,34 @@
             this.btnDelete.Text = "Xóa nút";
             this.btnDelete.UseVisualStyleBackColor = true;
             // 
+            // btnResetLocation
+            // 
+            this.btnResetLocation.Location = new System.Drawing.Point(49, 230);
+            this.btnResetLocation.Name = "btnResetLocation";
+            this.btnResetLocation.Size = new System.Drawing.Size(75, 23);
+            this.btnResetLocation.TabIndex = 6;
+            this.btnResetLocation.Text = "Đặt lại vị trí";
+            this.btnResetLocation.UseVisualStyleBackColor = true;
+            this.btnResetLocation.Click += new System.EventHandler(this.btnResetLocation_Click);
+            // 
+            // ptbGrid
+            // 
+            this.ptbGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.ptbGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ptbGrid.Location = new System.Drawing.Point(0, 417);
+            this.ptbGrid.Name = "ptbGrid";
+            this.ptbGrid.Size = new System.Drawing.Size(340, 245);
+            this.ptbGrid.TabIndex = 7;
+            this.ptbGrid.TabStop = false;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 662);
+            this.Controls.Add(this.ptbGrid);
+            this.Controls.Add(this.btnResetLocation);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.btnDeleteTree);
@@ -140,10 +171,12 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ptbTree);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormMain";
             this.Text = "Demo cây K chiều";
             this.Load += new System.EventHandler(this.FormMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ptbTree)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ptbGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -160,6 +193,8 @@
         private System.Windows.Forms.Button btnDeleteTree;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnResetLocation;
+        private System.Windows.Forms.PictureBox ptbGrid;
     }
 }
 
