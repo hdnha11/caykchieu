@@ -64,7 +64,8 @@ namespace CayKChieu
                 {
                     if (current.XVal == xVal && current.YVal == yVal)
                     {
-                        break;
+                        //break;
+                        throw new Exception(String.Format("Nút ({0}, {1}) đã tồn tại trên cây", xVal, yVal));
                     }
                     else
                     {
@@ -162,6 +163,130 @@ namespace CayKChieu
                 ResetTree(theRoot.Left);
                 ResetTree(theRoot.Right);
             }
+        }
+
+        //Tìm nút có giá trị Min
+        private Node FindMin(Node node, bool isXVal)
+        {            
+            if (node == null)
+            {
+                return new Node(double.MaxValue, double.MaxValue);
+            }
+            if (node.Left == null && node.Right == null)
+            {
+                return node;
+            }
+
+            Node nl = FindMin(node.Left, isXVal);
+            Node nr = FindMin(node.Right, isXVal);
+
+            Node min = new Node(double.MaxValue, double.MaxValue);
+            if ((isXVal && (node.XVal < min.XVal)) || (!isXVal && (node.YVal < min.YVal)))
+            {
+                min = node;
+            }
+            if ((isXVal && (nl.XVal < min.XVal)) || (!isXVal && (nl.YVal < min.YVal)))
+            {
+                min = nl;
+            }
+            if ((isXVal && (nr.XVal < min.XVal)) || (!isXVal && (nr.YVal < min.YVal)))
+            {
+                min = nr;
+            }
+            
+            return min;
+        }
+
+        //Xóa nút
+        public bool Delete(double xVal, double yVal)
+        {
+            Node current = root;
+            Node parent = root;
+            bool isLeftChild = true;
+            //Tìm nút trên cây
+            while (current.XVal != xVal || current.YVal != yVal)
+            {
+                parent = current;
+                if ((current.Level % 2 == 0 && xVal < current.XVal) || (current.Level % 2 != 0 && yVal < current.YVal))
+                {
+                    isLeftChild = true;
+                    current = current.Left;
+                }
+                else
+                {
+                    isLeftChild = false;
+                    current = current.Right;
+                }
+                if (current == null)
+                {
+                    return false;
+                }
+            }
+            //Trường hợp nút lá
+            if (current.Left == null && current.Right == null)
+            {
+                if (current == root)
+                {
+                    root = null;
+                }
+                else if (isLeftChild == true)
+                {
+                    parent.Left = null;
+                }
+                else
+                {
+                    parent.Right = null;
+                }
+            }
+            //Cây con phải không rổng
+            else if (current.Right != null)
+            {
+                //Tìm ứng viên
+                Node succesor;
+                if (current.Level % 2 == 0)
+                {
+                    succesor = FindMin(current.Right, true);
+                }
+                else
+                {
+                    succesor = FindMin(current.Right, false);
+                }
+                //Lưu lại giá trị X, Y để tránh đệ quy vô hạn lần
+                Double X = succesor.XVal;
+                Double Y = succesor.YVal;
+                //Loại đệ quy
+                Delete(succesor.XVal, succesor.YVal);
+                //Thay thế giá trị X, Y cho nút đã xóa
+                current.XVal = X;
+                current.YVal = Y;
+            }
+            //Cây con phải rổng và cây con trái không rổng
+            else if (current.Right == null)
+            {
+                //Tìm ứng viên
+                Node succesor;
+                if (current.Level % 2 == 0)
+                {
+                    succesor = FindMin(current.Left, true);
+                }
+                else
+                {
+                    succesor = FindMin(current.Left, false);
+                }
+                //Lưu lại giá trị X, Y để tránh đệ quy vô hạn lần
+                Double X = succesor.XVal;
+                Double Y = succesor.YVal;                
+                //Loại đệ quy
+                Delete(succesor.XVal, succesor.YVal);
+                //Thay thế giá trị X, Y cho nút đã xóa
+                current.XVal = X;
+                current.YVal = Y;
+                //Chuyển cây con trái thành cây con phải
+                current.Right = current.Left;
+                current.Left = null;
+            }
+
+            return true;
         }
     }
 }

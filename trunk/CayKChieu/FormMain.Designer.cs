@@ -66,9 +66,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 45);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(17, 13);
+            this.label1.Size = new System.Drawing.Size(47, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "X:";
+            this.label1.Text = "Giá trị X:";
             // 
             // btnAdd
             // 
@@ -82,7 +82,7 @@
             // 
             // txtX
             // 
-            this.txtX.Location = new System.Drawing.Point(49, 41);
+            this.txtX.Location = new System.Drawing.Point(74, 41);
             this.txtX.Name = "txtX";
             this.txtX.Size = new System.Drawing.Size(100, 20);
             this.txtX.TabIndex = 3;
@@ -93,13 +93,13 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 78);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(17, 13);
+            this.label2.Size = new System.Drawing.Size(47, 13);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Y:";
+            this.label2.Text = "Giá trị Y:";
             // 
             // txtY
             // 
-            this.txtY.Location = new System.Drawing.Point(49, 75);
+            this.txtY.Location = new System.Drawing.Point(74, 75);
             this.txtY.Name = "txtY";
             this.txtY.Size = new System.Drawing.Size(100, 20);
             this.txtY.TabIndex = 3;
@@ -121,7 +121,7 @@
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(75, 23);
             this.btnSearch.TabIndex = 5;
-            this.btnSearch.Text = "Tìm";
+            this.btnSearch.Text = "Tìm nút";
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
@@ -133,6 +133,7 @@
             this.btnDelete.TabIndex = 5;
             this.btnDelete.Text = "Xóa nút";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnResetLocation
             // 
