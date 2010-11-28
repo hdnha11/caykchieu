@@ -67,12 +67,15 @@ namespace CayKChieu
 
         private void DrawPartitionArea()
         {
+            GDB p = new GDB(ptbGrid.Width, ptbGrid.Height);
+            Graphics g = p.Store();
+            g.Clear(ptbGrid.BackColor);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             if (tree.Root != null)
-            {
-                Graphics g = ptbGrid.CreateGraphics();
-                g.Clear(ptbGrid.BackColor);
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            {                
                 tree.DrawPartitionArea(tree.Root, g, ptbGrid.Width, ptbGrid.Height);
+                p.Paint(ptbGrid);
+                p.Dispone();
             }
         }
 
@@ -117,7 +120,8 @@ namespace CayKChieu
             tree = new Tree();
             Graphics g = ptbTree.CreateGraphics();
             g.Clear(ptbTree.BackColor);
-            DrawPartitionArea();
+            //DrawPartitionArea(); //Gọi hàm nhưng không thực hiện vì root lúc này bằng null
+            ptbGrid.CreateGraphics().Clear(ptbGrid.BackColor);
             doDoiX = doDoiY = 0;
         }
 
@@ -215,12 +219,26 @@ namespace CayKChieu
             }
         }
 
-        private void FormMain_Paint(object sender, PaintEventArgs e)
+        //Vẽ lại cây trong 2 PictureBox (chưa hoạt động được với ptbTree)
+        private void ReDrawTree()
         {
-            Graphics g = ptbTree.CreateGraphics();
-            g.Clear(ptbTree.BackColor);
-            DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
-            DrawPartitionArea();
+            if (ptbTree.Width != 0 && ptbTree.Height != 0 && ptbGrid.Width != 0 && ptbGrid.Height != 0)
+            {
+                GDB p = new GDB(ptbTree.Width, ptbTree.Height);
+                Graphics g = p.Store();
+                g.Clear(ptbTree.BackColor);
+                DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+                p.Paint(ptbTree);
+                p.Dispone();
+                DrawPartitionArea();
+                //ptbTree.Invalidate();
+                this.Invalidate();
+            }
+        }
+
+        private void ptbTree_Paint(object sender, PaintEventArgs e)
+        {
+            ReDrawTree();
         }
     }
 }

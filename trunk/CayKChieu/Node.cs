@@ -97,7 +97,7 @@ namespace CayKChieu
             g.DrawRectangle(myPen, info.X - 50, info.Y - 30, 100, 60);
             g.DrawLine(myPen, info.X - 50, info.Y, info.X + 50, info.Y);
             g.DrawLine(myPen, info.X, info.Y, info.X, info.Y + 30);
-            g.DrawString(String.Format("({0}, {1})", xVal.ToString(), yVal.ToString()), new Font("Aria", 12), myBrush, new Point(info.X - 30, info.Y - 25));
+            g.DrawString(String.Format("({0}, {1})", xVal.ToString(), yVal.ToString()), new Font("Arial", 12), myBrush, new Point(info.X - 30, info.Y - 25));
         }
     }
 }
