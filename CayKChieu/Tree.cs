@@ -401,8 +401,8 @@ namespace CayKChieu
         //Vẽ miền phân hoạch cho cây
         public void DrawPartitionArea(Node theRoot, Graphics g, int width, int height)
         {
-            double xScale = (width - 40) / GetXValMax(root);
-            double yScale = (height - 40) / GetYValMax(root);
+            double xScale = (width - 60) / GetXValMax(root);
+            double yScale = (height - 60) / GetYValMax(root);
             double MAXVALUE = width > height ? Convert.ToDouble(width) : Convert.ToDouble(height);
             double MINVALUE = 0;
 
@@ -423,16 +423,17 @@ namespace CayKChieu
             int X = Convert.ToInt32(theRoot.XVal * xScale);
             int Y = Convert.ToInt32(theRoot.YVal * yScale);
             //Vẽ điểm
-            g.FillEllipse(myBrush, X - 5, height - Y - 5, 10, 10);
-            g.DrawString(String.Format("({0}, {1})", theRoot.XVal, theRoot.YVal), new Font("Aria", 10), new SolidBrush(Color.Green), X - 20, height - Y - 20);
+            g.FillEllipse(myBrush, X - 5, height - Y - 5, 10, 10);            
 
             //Vẽ đường phân chia
             if (theRoot.Level % 2 == 0)
             {
+                g.DrawString(String.Format("({0}, {1})", theRoot.XVal, theRoot.YVal), new Font("Arial", 10), new SolidBrush(Color.Red), X + 5, height - Y - 10);
                 g.DrawLine(myPen, (float)X, height - area[2], (float)X, height - area[3]);
             }
             else
             {
+                g.DrawString(String.Format("({0}, {1})", theRoot.XVal, theRoot.YVal), new Font("Arial", 10), new SolidBrush(Color.Red), X - 20, height - Y - 20);
                 g.DrawLine(myPen, area[0], height - (float)Y, area[1], height - (float)Y);
             }
 

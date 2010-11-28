@@ -58,6 +58,7 @@
             this.ptbTree.MouseLeave += new System.EventHandler(this.ptbTree_MouseLeave);
             this.ptbTree.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ptbTree_MouseMove);
             this.ptbTree.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ptbTree_MouseDown);
+            this.ptbTree.Paint += new System.Windows.Forms.PaintEventHandler(this.ptbTree_Paint);
             this.ptbTree.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ptbTree_MouseUp);
             this.ptbTree.MouseEnter += new System.EventHandler(this.ptbTree_MouseEnter);
             // 
@@ -67,7 +68,7 @@
             this.label1.Location = new System.Drawing.Point(12, 45);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 13);
-            this.label1.TabIndex = 1;
+            this.label1.TabIndex = 7;
             this.label1.Text = "Giá trị X:";
             // 
             // btnAdd
@@ -85,7 +86,7 @@
             this.txtX.Location = new System.Drawing.Point(74, 41);
             this.txtX.Name = "txtX";
             this.txtX.Size = new System.Drawing.Size(100, 20);
-            this.txtX.TabIndex = 3;
+            this.txtX.TabIndex = 0;
             this.txtX.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtX_KeyPress);
             // 
             // label2
@@ -94,7 +95,7 @@
             this.label2.Location = new System.Drawing.Point(12, 78);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(47, 13);
-            this.label2.TabIndex = 1;
+            this.label2.TabIndex = 8;
             this.label2.Text = "Giá trị Y:";
             // 
             // txtY
@@ -102,7 +103,7 @@
             this.txtY.Location = new System.Drawing.Point(74, 75);
             this.txtY.Name = "txtY";
             this.txtY.Size = new System.Drawing.Size(100, 20);
-            this.txtY.TabIndex = 3;
+            this.txtY.TabIndex = 1;
             this.txtY.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtY_KeyPress);
             // 
             // btnDeleteTree
@@ -110,7 +111,7 @@
             this.btnDeleteTree.Location = new System.Drawing.Point(49, 201);
             this.btnDeleteTree.Name = "btnDeleteTree";
             this.btnDeleteTree.Size = new System.Drawing.Size(75, 23);
-            this.btnDeleteTree.TabIndex = 4;
+            this.btnDeleteTree.TabIndex = 5;
             this.btnDeleteTree.Text = "Xóa cây";
             this.btnDeleteTree.UseVisualStyleBackColor = true;
             this.btnDeleteTree.Click += new System.EventHandler(this.btnDeleteTree_Click);
@@ -120,7 +121,7 @@
             this.btnSearch.Location = new System.Drawing.Point(49, 143);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(75, 23);
-            this.btnSearch.TabIndex = 5;
+            this.btnSearch.TabIndex = 3;
             this.btnSearch.Text = "Tìm nút";
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
@@ -130,7 +131,7 @@
             this.btnDelete.Location = new System.Drawing.Point(49, 172);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 5;
+            this.btnDelete.TabIndex = 4;
             this.btnDelete.Text = "Xóa nút";
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -141,7 +142,7 @@
             this.btnResetLocation.Name = "btnResetLocation";
             this.btnResetLocation.Size = new System.Drawing.Size(75, 23);
             this.btnResetLocation.TabIndex = 6;
-            this.btnResetLocation.Text = "Đặt lại vị trí";
+            this.btnResetLocation.Text = "Vẽ lại cây";
             this.btnResetLocation.UseVisualStyleBackColor = true;
             this.btnResetLocation.Click += new System.EventHandler(this.btnResetLocation_Click);
             // 
@@ -176,7 +177,6 @@
             this.Name = "FormMain";
             this.Text = "Demo cây K chiều";
             this.Load += new System.EventHandler(this.FormMain_Load);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.FormMain_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.ptbTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptbGrid)).EndInit();
             this.ResumeLayout(false);
