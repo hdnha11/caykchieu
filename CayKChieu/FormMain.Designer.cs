@@ -176,6 +176,7 @@
             this.Name = "FormMain";
             this.Text = "Demo cây K chiều";
             this.Load += new System.EventHandler(this.FormMain_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.FormMain_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.ptbTree)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptbGrid)).EndInit();
             this.ResumeLayout(false);

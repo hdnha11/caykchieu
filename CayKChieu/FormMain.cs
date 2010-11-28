@@ -50,6 +50,7 @@ namespace CayKChieu
                 Graphics g = ptbTree.CreateGraphics();
                 g.Clear(ptbTree.BackColor);
                 DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+                DrawPartitionArea();
             }
             else
             {
@@ -62,6 +63,17 @@ namespace CayKChieu
             int h = t.Height(t.Root) + 1;
             int soNut = Convert.ToInt32(Math.Pow(2, h));
             t.DrawTree(t.Root, g, soNut / 2, soNut / 2, xPixel, yPixel, xMove, yMove);
+        }
+
+        private void DrawPartitionArea()
+        {
+            if (tree.Root != null)
+            {
+                Graphics g = ptbGrid.CreateGraphics();
+                g.Clear(ptbGrid.BackColor);
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                tree.DrawPartitionArea(tree.Root, g, ptbGrid.Width, ptbGrid.Height);
+            }
         }
 
         private void ptbTree_MouseDown(object sender, MouseEventArgs e)
@@ -105,6 +117,7 @@ namespace CayKChieu
             tree = new Tree();
             Graphics g = ptbTree.CreateGraphics();
             g.Clear(ptbTree.BackColor);
+            DrawPartitionArea();
             doDoiX = doDoiY = 0;
         }
 
@@ -185,6 +198,7 @@ namespace CayKChieu
                         Graphics g = ptbTree.CreateGraphics();
                         g.Clear(ptbTree.BackColor);
                         DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+                        DrawPartitionArea();
                     }
                     else
                     {
@@ -199,6 +213,14 @@ namespace CayKChieu
             {
                 MessageBox.Show("Chưa nhập giá trị X, Y cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void FormMain_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = ptbTree.CreateGraphics();
+            g.Clear(ptbTree.BackColor);
+            DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+            DrawPartitionArea();
         }
     }
 }
