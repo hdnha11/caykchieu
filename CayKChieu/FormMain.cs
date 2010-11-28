@@ -31,11 +31,30 @@ namespace CayKChieu
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            tree.ResetTree(tree.Root);
-            tree.Insert(Convert.ToDouble(txtX.Text), Convert.ToDouble(txtY.Text));
-            Graphics g = ptbTree.CreateGraphics();
-            g.Clear(ptbTree.BackColor);
-            DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+            if (txtX.Text != String.Empty && txtY.Text != String.Empty)
+            {
+                tree.ResetTree(tree.Root);
+                try
+                {
+                    tree.Insert(Convert.ToDouble(txtX.Text), Convert.ToDouble(txtY.Text));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Node nodeFind = tree.Search(Convert.ToDouble(txtX.Text), Convert.ToDouble(txtY.Text));
+                    if (nodeFind != null)
+                    {
+                        nodeFind.IsFind = true;
+                    }
+                }
+                Graphics g = ptbTree.CreateGraphics();
+                g.Clear(ptbTree.BackColor);
+                DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+            }
+            else
+            {
+                MessageBox.Show("Chưa nhập giá trị X, Y cần thêm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void DrawTree(Graphics g, Tree t, int xPixel, int yPixel, int xMove, int yMove)
@@ -117,22 +136,32 @@ namespace CayKChieu
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            tree.ResetTree(tree.Root);
-            Node nodeFind = tree.Search(Convert.ToDouble(txtX.Text), Convert.ToDouble(txtY.Text));
-            if (nodeFind != null)
+            if (txtX.Text != String.Empty && txtY.Text != String.Empty)
             {
-                nodeFind.IsFind = true;
-                Graphics g = ptbTree.CreateGraphics();
-                g.Clear(ptbTree.BackColor);
-                DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+                if (tree.Root != null)
+                {
+                    tree.ResetTree(tree.Root);
+                    Node nodeFind = tree.Search(Convert.ToDouble(txtX.Text), Convert.ToDouble(txtY.Text));
+                    if (nodeFind != null)
+                    {
+                        nodeFind.IsFind = true;
+                        Graphics g = ptbTree.CreateGraphics();
+                        g.Clear(ptbTree.BackColor);
+                        DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+                    }
+                    else
+                    {
+                        MessageBox.Show(String.Format("Không tìm thấy nút ({0}, {1})", txtX.Text, txtY.Text), "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        tree.ResetTree(tree.Root);
+                        Graphics g = ptbTree.CreateGraphics();
+                        g.Clear(ptbTree.BackColor);
+                        DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+                    }
+                }
             }
             else
             {
-                MessageBox.Show(String.Format("Không tìm thấy nút ({0}, {1})", txtX.Text, txtY.Text), "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                tree.ResetTree(tree.Root);
-                Graphics g = ptbTree.CreateGraphics();
-                g.Clear(ptbTree.BackColor);
-                DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+                MessageBox.Show("Chưa nhập giá trị X, Y cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -142,6 +171,34 @@ namespace CayKChieu
             Graphics g = ptbTree.CreateGraphics();
             g.Clear(ptbTree.BackColor);
             DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (txtX.Text != String.Empty && txtY.Text != String.Empty)
+            {
+                if (tree.Root != null)
+                {
+                    tree.ResetTree(tree.Root);
+                    if (tree.Delete(Convert.ToDouble(txtX.Text), Convert.ToDouble(txtY.Text)))
+                    {
+                        Graphics g = ptbTree.CreateGraphics();
+                        g.Clear(ptbTree.BackColor);
+                        DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+                    }
+                    else
+                    {
+                        MessageBox.Show(String.Format("Không tồn tại nút ({0}, {1})", txtX.Text, txtY.Text), "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Graphics g = ptbTree.CreateGraphics();
+                        g.Clear(ptbTree.BackColor);
+                        DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Chưa nhập giá trị X, Y cần tìm", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }
