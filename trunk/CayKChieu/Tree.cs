@@ -288,5 +288,157 @@ namespace CayKChieu
 
             return true;
         }
+
+        //Tính miền đại diện của một nút
+        private double[] GetArea(Node node, double maxValue, double minValue)
+        {
+            double[] area = { minValue, maxValue, minValue, maxValue };
+            if (node == root)
+            {
+                return area;
+            }
+            double[] parentArea = GetArea(node.Parent, maxValue, minValue);
+            if (node.Parent.Level % 2 == 0)
+            {
+                if (node.Parent.Left == node)
+                {
+                    area[0] = parentArea[0];
+                    area[1] = node.Parent.XVal;
+                    area[2] = parentArea[2];
+                    area[3] = parentArea[3];
+                }
+                else
+                {
+                    area[0] = node.Parent.XVal;
+                    area[1] = parentArea[1];
+                    area[2] = parentArea[2];
+                    area[3] = parentArea[3];
+                }
+            }
+            else
+            {
+                if (node.Parent.Left == node)
+                {
+                    area[0] = parentArea[0];
+                    area[1] = parentArea[1];
+                    area[2] = parentArea[2];
+                    area[3] = node.Parent.YVal;
+                }
+                else
+                {
+                    area[0] = parentArea[0];
+                    area[1] = parentArea[1];
+                    area[2] = node.Parent.YVal;
+                    area[3] = parentArea[3];
+                }
+            }
+
+            return area;
+        }
+
+        //Tìm giá trị XValMax trên cây
+        private double GetXValMax(Node theRoot)
+        {
+            double xValMax = double.MinValue;
+            if (theRoot == null)
+            {
+                return double.MinValue;
+            }
+            if (theRoot.Left == null && theRoot.Right == null)
+            {
+                return theRoot.XVal;
+            }
+            double maxLeft = GetXValMax(theRoot.Left);
+            double maxRight = GetXValMax(theRoot.Right);
+
+            if (theRoot.XVal > xValMax)
+            {
+                xValMax = theRoot.XVal;
+            }
+            if (maxLeft > xValMax)
+            {
+                xValMax = maxLeft;
+            }
+            if (maxRight > xValMax)
+            {
+                xValMax = maxRight;
+            }
+            
+            return xValMax;
+        }
+
+        //Tìm giá trị YValMax trên cây
+        private double GetYValMax(Node theRoot)
+        {
+            double yValMax = double.MinValue;
+            if (theRoot == null)
+            {
+                return double.MinValue;
+            }
+            if (theRoot.Left == null && theRoot.Right == null)
+            {
+                return theRoot.YVal;
+            }
+            double maxLeft = GetYValMax(theRoot.Left);
+            double maxRight = GetYValMax(theRoot.Right);
+
+            if (theRoot.YVal > yValMax)
+            {
+                yValMax = theRoot.YVal;
+            }
+            if (maxLeft > yValMax)
+            {
+                yValMax = maxLeft;
+            }
+            if (maxRight > yValMax)
+            {
+                yValMax = maxRight;
+            }
+
+            return yValMax;
+        }
+
+        //Vẽ miền phân hoạch cho cây
+        public void DrawPartitionArea(Node theRoot, Graphics g, int width, int height)
+        {
+            double xScale = (width - 40) / GetXValMax(root);
+            double yScale = (height - 40) / GetYValMax(root);
+            double MAXVALUE = width > height ? Convert.ToDouble(width) : Convert.ToDouble(height);
+            double MINVALUE = 0;
+
+            if (theRoot == null)
+            {
+                return;
+            }
+
+            Pen myPen = new Pen(Color.Blue, 1);
+            Brush myBrush = new SolidBrush(Color.Black);
+
+            float[] area = new float[4];
+            area[0] = Convert.ToSingle(GetArea(theRoot, MAXVALUE, MINVALUE)[0]) * (float)xScale;
+            area[1] = Convert.ToSingle(GetArea(theRoot, MAXVALUE, MINVALUE)[1]) * (float)xScale;
+            area[2] = Convert.ToSingle(GetArea(theRoot, MAXVALUE, MINVALUE)[2]) * (float)yScale;
+            area[3] = Convert.ToSingle(GetArea(theRoot, MAXVALUE, MINVALUE)[3]) * (float)yScale;
+
+            int X = Convert.ToInt32(theRoot.XVal * xScale);
+            int Y = Convert.ToInt32(theRoot.YVal * yScale);
+            //Vẽ điểm
+            g.FillEllipse(myBrush, X - 5, height - Y - 5, 10, 10);
+            g.DrawString(String.Format("({0}, {1})", theRoot.XVal, theRoot.YVal), new Font("Aria", 10), new SolidBrush(Color.Green), X - 20, height - Y - 20);
+
+            //Vẽ đường phân chia
+            if (theRoot.Level % 2 == 0)
+            {
+                g.DrawLine(myPen, (float)X, height - area[2], (float)X, height - area[3]);
+            }
+            else
+            {
+                g.DrawLine(myPen, area[0], height - (float)Y, area[1], height - (float)Y);
+            }
+
+            //Đệ quy hai nhánh
+            DrawPartitionArea(theRoot.Left, g, width, height);
+            DrawPartitionArea(theRoot.Right, g, width, height);
+        }
     }
 }
