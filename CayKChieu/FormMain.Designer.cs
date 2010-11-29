@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnRangeSearch = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDeleteTree = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -65,17 +66,31 @@
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox2.Controls.Add(this.btnRangeSearch);
             this.groupBox2.Controls.Add(this.btnAdd);
             this.groupBox2.Controls.Add(this.btnDeleteTree);
             this.groupBox2.Controls.Add(this.btnSearch);
             this.groupBox2.Controls.Add(this.btnDelete);
             this.groupBox2.Controls.Add(this.btnResetLocation);
-            this.groupBox2.Location = new System.Drawing.Point(65, 134);
+            this.groupBox2.Location = new System.Drawing.Point(65, 106);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(209, 255);
+            this.groupBox2.Size = new System.Drawing.Size(209, 300);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Chức năng";
+            // 
+            // btnRangeSearch
+            // 
+            this.btnRangeSearch.Image = global::CayKChieu.Properties.Resources.doc_find;
+            this.btnRangeSearch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRangeSearch.Location = new System.Drawing.Point(54, 111);
+            this.btnRangeSearch.Name = "btnRangeSearch";
+            this.btnRangeSearch.Size = new System.Drawing.Size(100, 40);
+            this.btnRangeSearch.TabIndex = 11;
+            this.btnRangeSearch.Text = "Tìm theo\r\nphạm vi";
+            this.btnRangeSearch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnRangeSearch.UseVisualStyleBackColor = true;
+            this.btnRangeSearch.Click += new System.EventHandler(this.btnRangeSearch_Click);
             // 
             // btnAdd
             // 
@@ -94,7 +109,7 @@
             // 
             this.btnDeleteTree.Image = global::CayKChieu.Properties.Resources.delete;
             this.btnDeleteTree.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDeleteTree.Location = new System.Drawing.Point(54, 157);
+            this.btnDeleteTree.Location = new System.Drawing.Point(54, 203);
             this.btnDeleteTree.Name = "btnDeleteTree";
             this.btnDeleteTree.Size = new System.Drawing.Size(100, 40);
             this.btnDeleteTree.TabIndex = 5;
@@ -120,7 +135,7 @@
             // 
             this.btnDelete.Image = global::CayKChieu.Properties.Resources.remove;
             this.btnDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDelete.Location = new System.Drawing.Point(54, 111);
+            this.btnDelete.Location = new System.Drawing.Point(54, 157);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(100, 40);
             this.btnDelete.TabIndex = 4;
@@ -133,7 +148,7 @@
             // 
             this.btnResetLocation.Image = global::CayKChieu.Properties.Resources.reload;
             this.btnResetLocation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnResetLocation.Location = new System.Drawing.Point(54, 203);
+            this.btnResetLocation.Location = new System.Drawing.Point(54, 249);
             this.btnResetLocation.Name = "btnResetLocation";
             this.btnResetLocation.Size = new System.Drawing.Size(100, 40);
             this.btnResetLocation.TabIndex = 6;
@@ -149,16 +164,16 @@
             this.groupBox1.Controls.Add(this.txtY);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(65, 20);
+            this.groupBox1.Location = new System.Drawing.Point(65, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(209, 108);
+            this.groupBox1.Size = new System.Drawing.Size(209, 97);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Điểm";
+            this.groupBox1.Text = "Điểm dữ liệu";
             // 
             // txtX
             // 
-            this.txtX.Location = new System.Drawing.Point(85, 28);
+            this.txtX.Location = new System.Drawing.Point(85, 24);
             this.txtX.Name = "txtX";
             this.txtX.Size = new System.Drawing.Size(100, 20);
             this.txtX.TabIndex = 0;
@@ -166,7 +181,7 @@
             // 
             // txtY
             // 
-            this.txtY.Location = new System.Drawing.Point(85, 62);
+            this.txtY.Location = new System.Drawing.Point(85, 58);
             this.txtY.Name = "txtY";
             this.txtY.Size = new System.Drawing.Size(100, 20);
             this.txtY.TabIndex = 1;
@@ -175,7 +190,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 32);
+            this.label1.Location = new System.Drawing.Point(23, 28);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 13);
             this.label1.TabIndex = 7;
@@ -184,7 +199,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 65);
+            this.label2.Location = new System.Drawing.Point(23, 61);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(47, 13);
             this.label2.TabIndex = 8;
@@ -229,7 +244,7 @@
             this.Controls.Add(this.ptbTree);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormMain";
-            this.Text = "Demo cây K chiều";
+            this.Text = "Cây K chiều - Demo với cây 2 chiều";
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.panel1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -257,6 +272,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnRangeSearch;
     }
 }
 

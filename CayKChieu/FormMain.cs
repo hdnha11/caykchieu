@@ -18,6 +18,10 @@ namespace CayKChieu
         Point diemBD = new Point();
         int doDoiX = 0, doDoiY = 0;
         int doDoiXHT = 0, doDoiYHT = 0;
+        //RangeSearch
+        Point centre = new Point();
+        int radius = 0;
+        FormRangeSearch frmRangeSearch;
 
         public FormMain()
         {
@@ -34,6 +38,7 @@ namespace CayKChieu
             if (txtX.Text != String.Empty && txtY.Text != String.Empty)
             {
                 tree.ResetTree(tree.Root);
+                tree.IsRangeSearch = false;
                 try
                 {
                     tree.Insert(Convert.ToDouble(txtX.Text), Convert.ToDouble(txtY.Text));
@@ -74,6 +79,25 @@ namespace CayKChieu
             if (tree.Root != null)
             {                
                 tree.DrawPartitionArea(tree.Root, g, ptbGrid.Width, ptbGrid.Height);
+                if (tree.IsRangeSearch == true)
+                {
+                    //Lấy giá trị tọa độ lớn nhất hiện tại trên cây
+                    double maxCoordinate = tree.GetXValMax(tree.Root);
+                    if (maxCoordinate < tree.GetYValMax(tree.Root))
+                        maxCoordinate = tree.GetYValMax(tree.Root);
+                    double xScale = (ptbGrid.Width - (ptbGrid.Width - (ptbGrid.Height - 20))) / maxCoordinate; //Bằng ptbGrid.Height - 20
+                    double yScale = (ptbGrid.Height - 20) / maxCoordinate;
+                    Point realCentre = new Point(Convert.ToInt32(centre.X * xScale), Convert.ToInt32(centre.Y * yScale));
+                    //Ước lượng tỷ lệ tương đối cho realRadius (Không chính xác lắm)
+                    int realRadius = Convert.ToInt32(radius * ((xScale + yScale) / 2));
+                    Pen myPen = new Pen(Color.Green, 2);
+                    Brush myBrush = new SolidBrush(Color.Green);
+                    g.DrawEllipse(myPen, realCentre.X - realRadius, ptbGrid.Height - realCentre.Y - realRadius, realRadius * 2, realRadius * 2);
+                    g.FillEllipse(myBrush, realCentre.X - 5, ptbGrid.Height - realCentre.Y - 5, 10, 10);
+                    g.DrawLine(myPen, realCentre.X, ptbGrid.Height - realCentre.Y, realCentre.X + realRadius, ptbGrid.Height - realCentre.Y);
+                    g.DrawString(String.Format("O({0}, {1})", centre.X, centre.Y), new Font("Arial", 8), myBrush, realCentre.X - 30, ptbGrid.Height - realCentre.Y + 5);
+                    g.DrawString(String.Format("R={0}", radius), new Font("Arial", 8), myBrush, (realCentre.X + realCentre.X + realRadius) / 2 - 15, ptbGrid.Height - realCentre.Y - 14);
+                }
                 p.Paint(ptbGrid);
                 p.Dispone();
             }
@@ -158,6 +182,7 @@ namespace CayKChieu
                 if (tree.Root != null)
                 {
                     tree.ResetTree(tree.Root);
+                    tree.IsRangeSearch = false;
                     Node nodeFind = tree.Search(Convert.ToDouble(txtX.Text), Convert.ToDouble(txtY.Text));
                     if (nodeFind != null)
                     {
@@ -165,14 +190,17 @@ namespace CayKChieu
                         Graphics g = ptbTree.CreateGraphics();
                         g.Clear(ptbTree.BackColor);
                         DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+                        DrawPartitionArea();
                     }
                     else
                     {
                         MessageBox.Show(String.Format("Không tìm thấy nút ({0}, {1})", txtX.Text, txtY.Text), "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         tree.ResetTree(tree.Root);
+                        tree.IsRangeSearch = false;
                         Graphics g = ptbTree.CreateGraphics();
                         g.Clear(ptbTree.BackColor);
                         DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+                        DrawPartitionArea();
                     }
                 }
             }
@@ -197,12 +225,16 @@ namespace CayKChieu
                 if (tree.Root != null)
                 {
                     tree.ResetTree(tree.Root);
+                    tree.IsRangeSearch = false;
                     if (tree.Delete(Convert.ToDouble(txtX.Text), Convert.ToDouble(txtY.Text)))
                     {
                         Graphics g = ptbTree.CreateGraphics();
                         g.Clear(ptbTree.BackColor);
                         DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
                         DrawPartitionArea();
+                        //Đề phòng trường hợp nút gốc bằng null phương thức DrawPartitionArea() không được gọi
+                        if (tree.Root == null)
+                            ptbGrid.CreateGraphics().Clear(ptbGrid.BackColor);
                     }
                     else
                     {
@@ -210,6 +242,7 @@ namespace CayKChieu
                         Graphics g = ptbTree.CreateGraphics();
                         g.Clear(ptbTree.BackColor);
                         DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+                        DrawPartitionArea();
                     }
                 }
             }
@@ -239,6 +272,33 @@ namespace CayKChieu
         private void ptbTree_Paint(object sender, PaintEventArgs e)
         {
             ReDrawTree();
+        }
+
+        private void btnRangeSearch_Click(object sender, EventArgs e)
+        {
+            frmRangeSearch = new FormRangeSearch();
+            frmRangeSearch.FormClosing += new FormClosingEventHandler(frmRangeSearch_FormClosing);
+            frmRangeSearch.ShowDialog();
+        }
+
+        void frmRangeSearch_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (frmRangeSearch.IsSearch)
+            {
+                centre = frmRangeSearch.Centre;
+                radius = frmRangeSearch.Radius;
+                if (tree.Root != null)
+                {
+                    tree.ResetTree(tree.Root);
+                    tree.IsRangeSearch = false;
+                    tree.RangeSearch(tree.Root, centre, radius, ptbGrid.Width, ptbGrid.Height);
+                    tree.IsRangeSearch = true;
+                    Graphics g = ptbTree.CreateGraphics();
+                    g.Clear(ptbTree.BackColor);
+                    DrawTree(g, tree, XPIXEL, YPIXEL, doDoiX, doDoiY);
+                    DrawPartitionArea();
+                }
+            }
         }
     }
 }

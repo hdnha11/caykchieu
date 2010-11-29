@@ -9,12 +9,19 @@ namespace CayKChieu
     public class Tree
     {
         private Node root;
+        private bool isRangeSearch = false;
 
         //Thuộc tính
         public Node Root
         {
             get { return root; }
             set { root = value; }
+        }
+
+        public bool IsRangeSearch
+        {
+            get { return isRangeSearch; }
+            set { isRangeSearch = value; }
         }
 
         //Phương thức xây dựng
@@ -337,7 +344,7 @@ namespace CayKChieu
         }
 
         //Tìm giá trị XValMax trên cây
-        private double GetXValMax(Node theRoot)
+        public double GetXValMax(Node theRoot)
         {
             double xValMax = double.MinValue;
             if (theRoot == null)
@@ -368,7 +375,7 @@ namespace CayKChieu
         }
 
         //Tìm giá trị YValMax trên cây
-        private double GetYValMax(Node theRoot)
+        public double GetYValMax(Node theRoot)
         {
             double yValMax = double.MinValue;
             if (theRoot == null)
@@ -401,8 +408,12 @@ namespace CayKChieu
         //Vẽ miền phân hoạch cho cây
         public void DrawPartitionArea(Node theRoot, Graphics g, int width, int height)
         {
-            double xScale = (width - 60) / GetXValMax(root);
-            double yScale = (height - 60) / GetYValMax(root);
+            //Lấy giá trị tọa độ lớn nhất hiện tại trên cây
+            double maxCoordinate = GetXValMax(root);
+            if (maxCoordinate < GetYValMax(root))
+                maxCoordinate = GetYValMax(root);
+            double xScale = (width - (width - (height - 20))) / maxCoordinate; //Cái này viết dài dòng vậy nhưng thực ra nó bằng height - 20 (^_^)
+            double yScale = (height - 20) / maxCoordinate;
             double MAXVALUE = width > height ? Convert.ToDouble(width) : Convert.ToDouble(height);
             double MINVALUE = 0;
 
@@ -412,7 +423,15 @@ namespace CayKChieu
             }
 
             Pen myPen = new Pen(Color.Blue, 1);
-            Brush myBrush = new SolidBrush(Color.Black);
+            Brush myBrush;
+            if (theRoot.IsFind == true)
+            {
+                myBrush = new SolidBrush(Color.Red);
+            }
+            else
+            {
+                myBrush = new SolidBrush(Color.Black);
+            }            
 
             float[] area = new float[4];
             area[0] = Convert.ToSingle(GetArea(theRoot, MAXVALUE, MINVALUE)[0]) * (float)xScale;
@@ -440,6 +459,57 @@ namespace CayKChieu
             //Đệ quy hai nhánh
             DrawPartitionArea(theRoot.Left, g, width, height);
             DrawPartitionArea(theRoot.Right, g, width, height);
+        }
+
+        //Kiểm tra đường tròn có giao với hình vuông
+        private bool IsIntersect(Point centre, int radius, int xMin, int xMax, int yMin, int yMax)
+        {
+            bool result = false;
+            //Tăng kích thước vùng bao lên một khoảng bằng bán kính
+            xMin -= radius;
+            xMax += radius;
+            yMin -= radius;
+            yMax += radius;
+            //Kiểm tra tâm đường tròn có nằm trong miền hình chữ nhật mở rộng không
+            if (centre.X <= xMax && centre.X >= xMin && centre.Y <= yMax && centre.Y >= yMin)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        //Tìm kiếm theo phạm vi
+        public void RangeSearch(Node theNode, Point centre, int radius, int width, int height)
+        {
+            if (theNode == null)
+            {
+                return;
+            }
+
+            double MAXVALUE = width > height ? Convert.ToDouble(width) : Convert.ToDouble(height);
+            double MINVALUE = 0;
+            double[] area = GetArea(theNode, MAXVALUE, MINVALUE);
+            int xMin = Convert.ToInt32(area[0]);
+            int xMax = Convert.ToInt32(area[1]);
+            int yMin = Convert.ToInt32(area[2]);
+            int yMax = Convert.ToInt32(area[3]);
+            //Kiểm tra đường tròn tìm kiếm có giao với miền đại diện không, nếu không giao thì ngừng xét
+            if (!IsIntersect(centre, radius, xMin, xMax, yMin, yMax))
+            {
+                return;
+            }
+            else
+            {
+                //Nếu điểm đang xét thuộc đường tròn thì đánh dấu tìm thấy
+                if (Math.Sqrt(Math.Pow(theNode.XVal - centre.X, 2) + Math.Pow(theNode.YVal - centre.Y, 2)) <= radius)
+                {
+                    theNode.IsFind = true;
+                }
+                //Đệ quy hai nhánh
+                RangeSearch(theNode.Left, centre, radius, width, height);
+                RangeSearch(theNode.Right, centre, radius, width, height);
+            }
         }
     }
 }

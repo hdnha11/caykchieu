@@ -6,3 +6,4 @@ D:\Tai lieu\Cac mon trong CTDT\He CSDL da phuong tien\Thay Binh\Bao cao cuoi ky\
 D:\Tai lieu\Cac mon trong CTDT\He CSDL da phuong tien\Thay Binh\Bao cao cuoi ky\Project\CayKChieu\obj\Debug\CayKChieu.exe
 D:\Tai lieu\Cac mon trong CTDT\He CSDL da phuong tien\Thay Binh\Bao cao cuoi ky\Project\CayKChieu\obj\Debug\CayKChieu.pdb
 D:\Tai lieu\Cac mon trong CTDT\He CSDL da phuong tien\Thay Binh\Bao cao cuoi ky\Project\CayKChieu\obj\Debug\CayKChieu.FormMain.resources
+D:\Tai lieu\Cac mon trong CTDT\He CSDL da phuong tien\Thay Binh\Bao cao cuoi ky\Project\CayKChieu\obj\Debug\CayKChieu.FormRangeSearch.resources
